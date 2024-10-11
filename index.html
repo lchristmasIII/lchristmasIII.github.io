@@ -8,6 +8,34 @@
     <script src="https://cdn.jsdelivr.net/npm/phaser@3.60.0/dist/phaser-arcade-physics.min.js"></script>
 </head>
     <body>
+        <div id="game-container"></div>
+
+        <section class="development-items">
+            <h2>Development Items</h2>
+            <ul>
+                <li>
+                    <input type="checkbox" id="enemy-types" disabled>
+                    <label for="enemy-types">Add additional enemy types</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="background-music" disabled>
+                    <label for="background-music">Add Background Music</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="character-selection" disabled>
+                    <label for="character-selection">Add Character Selection</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="background-changes" disabled>
+                    <label for="background-changes">Background Changes as Score Increases</label>
+                </li>
+                <li>
+                    <input type="checkbox" id="high-scores" disabled>
+                    <label for="high-scores">Share High Score on Game Over</label>
+                </li>
+            </ul>
+        </section>
+
         <script type="module" src="game.js"></script>
     </body>
 </html>
