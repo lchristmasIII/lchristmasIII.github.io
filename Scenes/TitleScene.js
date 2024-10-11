@@ -18,7 +18,7 @@ export default class TitleScene extends Phaser.Scene {
         this.load.image('titlelayer5', 'assets/backgrounds/green/5.png');
         this.load.image('titlelayer6', 'assets/backgrounds/green/6.png');
         this.load.image('titlelayer7', 'assets/backgrounds/green/7.png');
-        this.load.image('ground', 'assets/backgrounds/spookyGround4.png');
+        this.load.image('ground', 'assets/backgrounds/spookyground4.png');
     }
 
     create() {

@@ -13,7 +13,7 @@ export default class MainScene extends Phaser.Scene {
         this.load.spritesheet('witchAttack', 'assets/player/AttackAnimation.png', { frameWidth: 85, frameHeight: 56 });
         this.load.spritesheet('magicSpell', 'assets/player/MagicSpellSpriteSheet.png', { frameWidth: 27, frameHeight: 16 });
 
-        this.load.image('ground', 'assets/backgrounds/spookyGround4.png');
+        this.load.image('ground', 'assets/backgrounds/spookyground4.png');
         this.load.image('candy', 'assets/collectables/candy2.png');
 
         this.load.image('layer1', 'assets/backgrounds/start/1.png');
