@@ -19,6 +19,8 @@ export default class TitleScene extends Phaser.Scene {
         this.load.image('titlelayer6', 'assets/backgrounds/green/6.png');
         this.load.image('titlelayer7', 'assets/backgrounds/green/7.png');
         this.load.image('ground', 'assets/backgrounds/spookyground4.png');
+
+        this.load.audio('backgroundMusic', 'assets/audio/background-music.mp3');
     }
 
     create() {
@@ -72,6 +74,9 @@ export default class TitleScene extends Phaser.Scene {
         startButton.on('pointerdown', () => {
             this.startGame(); 
         });
+
+        this.playMusic();
+        this.addMuteControl();
     }
 
     startGame() {
@@ -96,5 +101,41 @@ export default class TitleScene extends Phaser.Scene {
         this.titlelayer5.tilePositionX += 1.5;
         this.titlelayer6.tilePositionX += 1.3; 
         this.titlelayer7.tilePositionX += 2.0; 
+    }
+
+    playMusic() {
+        if (!this.sound.get('backgroundMusic')) {
+        this.backgroundMusic = this.sound.add('backgroundMusic', {
+            loop: true,
+            volume: 0.5
+        });
+        this.backgroundMusic.play();
+
+        this.game.music = this.backgroundMusic;
+        } else {
+            this.backgroundMusic = this.game.music;
+        }
+    }
+
+    addMuteControl() {
+        this.isMuted = false;
+    
+        this.muteText = this.add.text(760, 20, '🔊', { fontSize: '24px', fill: '#fff' }).setOrigin(0.5);
+        this.muteText.setInteractive();
+    
+        this.muteText.on('pointerdown', () => {
+            this.isMuted = !this.isMuted;
+            this.updateMuteStatus();
+        });
+    }
+
+    updateMuteStatus() {
+        if (this.isMuted) {
+            this.backgroundMusic.setMute(true);
+            this.muteText.setText('🔇'); 
+        } else {
+            this.backgroundMusic.setMute(false);
+            this.muteText.setText('🔊'); 
+        }
     }
 }

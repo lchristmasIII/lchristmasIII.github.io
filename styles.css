@@ -44,3 +44,31 @@ canvas {
     margin-right: 10px;
     accent-color: #4caf50; /
 }
+
+/* Styles for unchecked checkbox */
+input[type="checkbox"] {
+    appearance: none; /* Remove default styling */
+    background-color: #ccc; /* Gray background for unchecked */
+    border: 2px solid #4caf50; /* Green border */
+    width: 20px;
+    height: 20px;
+    border-radius: 4px; /* Optional: make it rounded */
+    cursor: pointer;
+}
+
+/* Styles for checked checkbox */
+input[type="checkbox"]:checked {
+    background-color: #4caf50; /* Green background for checked */
+    border-color: #4caf50; /* Green border */
+}
+
+/* Checkmark styling using a pseudo-element */
+input[type="checkbox"]:checked::before {
+    content: '✔'; /* Unicode character for checkmark */
+    color: white;
+    font-size: 16px;
+    position: absolute;
+    display: block;
+    top: -2px;
+    left: 2px;
+}

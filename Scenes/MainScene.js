@@ -33,6 +33,8 @@ export default class MainScene extends Phaser.Scene {
 
     create() {
         this.isGameOver = false;
+        this.batEventStarted = false;
+
         this.setupWorld();
         this.setupPlayer();
         this.setupBats();
@@ -81,6 +83,9 @@ export default class MainScene extends Phaser.Scene {
             this.killBat(spell, bat);
         }, null, this);
 
+        this.playMusic();
+        this.addMuteControl();
+
         //this.physics.world.createDebugGraphic();
     }
 
@@ -103,13 +108,9 @@ export default class MainScene extends Phaser.Scene {
             this.layer6.tilePositionX += 2.0; // Fastest layer
         }
 
-        if (this.score >= 600 && !this.batEvent) {
-            this.batEvent = this.time.addEvent({
-                delay: 2000,
-                callback: this.spawnBat,
-                callbackScope: this,
-                loop: true
-            });
+        if (this.score >= 600 && !this.batEventStarted) {
+            this.startBatEvent();
+            this.batEventStarted = true;
         }
 
         if (this.batGroup) {
@@ -153,6 +154,42 @@ export default class MainScene extends Phaser.Scene {
         this.ground.body.allowGravity = false;
     }
 
+    playMusic() {
+        if (!this.sound.get('backgroundMusic')) {
+        this.backgroundMusic = this.sound.add('backgroundMusic', {
+            loop: true,
+            volume: 0.5
+        });
+        this.backgroundMusic.play();
+
+        this.game.music = this.backgroundMusic;
+        } else {
+            this.backgroundMusic = this.game.music;
+        }
+    }
+
+    addMuteControl() {
+        this.isMuted = false;
+    
+        this.muteText = this.add.text(760, 20, '🔊', { fontSize: '24px', fill: '#fff' }).setOrigin(0.5);
+        this.muteText.setInteractive();
+    
+        this.muteText.on('pointerdown', () => {
+            this.isMuted = !this.isMuted;
+            this.updateMuteStatus();
+        });
+    }
+
+    updateMuteStatus() {
+        if (this.isMuted) {
+            this.backgroundMusic.setMute(true);
+            this.muteText.setText('🔇'); 
+        } else {
+            this.backgroundMusic.setMute(false);
+            this.muteText.setText('🔊'); 
+        }
+    }
+
     addCandy() {
         let candy = this.candyGroup.create(800, 340, 'candy');
         candy.setVelocityX(-160);
@@ -194,6 +231,19 @@ export default class MainScene extends Phaser.Scene {
         });
     }
 
+    startBatEvent() {
+        if (this.batEvent) {
+            this.batEvent.remove(); // Clear any previous timer
+        }
+        
+        this.batEvent = this.time.addEvent({
+            delay: 2000,  // Adjust the delay as needed
+            callback: this.spawnBat,
+            callbackScope: this,
+            loop: true
+        });
+    }
+
     setupBats() {
         this.anims.create({
             key: 'fly',
@@ -217,7 +267,7 @@ export default class MainScene extends Phaser.Scene {
             const spawnHigh = Phaser.Math.Between(0, 1);
             
             const highYPosition = Phaser.Math.Between(50, 150);  // High bats for player to walk under
-            const lowYPosition = Phaser.Math.Between(300, 350);  // Low bats for player to jump over
+            const lowYPosition = Phaser.Math.Between(220, 280);  // Low bats for player to jump over
             const batYPosition = spawnHigh ? highYPosition : lowYPosition;
 
             const bat = this.batGroup.create(800, batYPosition, 'bat1');
@@ -272,6 +322,8 @@ export default class MainScene extends Phaser.Scene {
 
     gameOver() {   
         this.removeTimedEvents();
+
+        this.batEventStarted = false;
 
         this.add.text(400, 200, 'Game Over', {
             fontSize: '64px',
