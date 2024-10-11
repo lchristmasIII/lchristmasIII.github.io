@@ -98,6 +98,18 @@ export default class MainScene extends Phaser.Scene {
             this.player.attack();
         }
 
+        const jumpButton = this.add.image(650, 375, 'witchJump', 5).setInteractive();
+        jumpButton.setScale(1); 
+        jumpButton.on('pointerdown', () => {
+            this.player.jump();
+        });
+
+        const attackButton = this.add.image(150, 375, 'magicSpell', 1).setInteractive();
+        attackButton.setScale(2); 
+        attackButton.on('pointerdown', () => {
+            this.player.attack();
+        });
+
         if(!this.isGameOver) {
             this.ground.tilePositionX += 2.0;
             this.layer1.tilePositionX += 0.5; // Slowest layer
